@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { listUsers } from '../services/UserService'
+import { listUsers } from '../../services/UserService'
 import { useNavigate } from 'react-router-dom'
 
 const ListThemesComponent = () => {

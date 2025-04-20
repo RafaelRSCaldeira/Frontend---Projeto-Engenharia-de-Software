@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { createUser, updateUser, getUser } from '../services/UserService';
+import { createUser, updateUser, getUser } from '../../services/UserService';
 import { useNavigate, useParams } from 'react-router-dom'
 
-const UserComponent = () => {
+const MentoringsComponent = () => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -146,4 +146,4 @@ const UserComponent = () => {
   )
 }
 
-export default UserComponent
+export default MentoringsComponent
