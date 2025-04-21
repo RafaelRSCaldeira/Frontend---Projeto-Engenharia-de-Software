@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import { listUsers } from '../../services/UserService'
 import { useNavigate } from 'react-router-dom'
 
-const ListMentoringComponent = () => {
+const ListMentoring = () => {
 
     const [users, setUsers] = useState([])
 
@@ -50,4 +49,4 @@ const ListMentoringComponent = () => {
   )
 }
 
-export default ListMentoringComponent
+export default ListMentoring;

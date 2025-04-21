@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { createUser, updateUser, getUser } from '../../services/UserService';
 import { useNavigate, useParams } from 'react-router-dom'
+import { createManager, updateManager } from '../../services/users/ManagerService';
 
-const ThemesComponent = () => {
+const AddMentored = () => {
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
 
     const {id} = useParams();
@@ -13,16 +12,14 @@ const ThemesComponent = () => {
     const navigator = useNavigate();
 
     const [errors, setErrors] = useState({
-        firstName:'',
-        lastName:'',
+        name:'',
         email:''
     });
 
     useEffect(() => {
         if(id) {
-            getUser(id).then((response) => {
-                setFirstName(response.data.firstName);
-                setLastName(response.data.lastName);
+            getManager(id).then((response) => {
+                setName(response.data.name);
                 setEmail(response.data.email);
             }).catch(error => {
                 console.log(error);
@@ -34,18 +31,18 @@ const ThemesComponent = () => {
         e.preventDefault();
 
         if(validateForm()) {
-            const user = {firstName, lastName, email};
+            const user = {name, email};
             console.log(user);
 
             if(id) {
-                updateUser(id, user).then((response) => {
+                updateManager(id, user).then((response) => {
                     console.log(response.data);
-                    navigator('/users')
+                    navigator('/users/manager')
                 }).catch(error => console.log(error));
             } else {
-                createUser(user).then((response) => {
+                createManager(user).then((response) => {
                     console.log(response.data);
-                    navigator('/users')
+                    navigator('/users/manager')
                 }).catch(error => console.log(error));
             }
 
@@ -58,17 +55,10 @@ const ThemesComponent = () => {
 
         const errorsCopy = {... errors};
 
-        if(firstName.trim()) {
-            errorsCopy.firstName = '';
+        if(name.trim()) {
+            errorsCopy.name = '';
         } else {
-            errorsCopy.firstName = 'First name is required';
-            valid = false;
-        }
-
-        if(lastName.trim()) {
-            errorsCopy.lastName = '';
-        } else {
-            errorsCopy.lastName = 'Last name is required';
+            errorsCopy.name = 'Name is required';
             valid = false;
         }
 
@@ -102,28 +92,16 @@ const ThemesComponent = () => {
                 <div className='card-body'>
                     <form>
                         <div className='form-group mb-2'>
-                            <label className='form-label'>First Name:</label>
+                            <label className='form-label'>Name:</label>
                             <input
                                 type='text'
-                                placeholder='Enter User First Name'
-                                name='firstName'
-                                value={firstName}
-                                className={`form-control ${errors.firstName ? 'is-invalid': ''}`}
-                                onChange={(e) => setFirstName(e.target.value)}>
+                                placeholder='Enter User Name'
+                                name='name'
+                                value={name}
+                                className={`form-control ${errors.name ? 'is-invalid': ''}`}
+                                onChange={(e) => setName(e.target.value)}>
                             </input>
-                            { errors.firstName && <div className='invalid-feedback'>{errors.firstName}</div> }
-                        </div>
-                        <div className='form-group mb-2'>
-                            <label className='form-label'>Last Name:</label>
-                            <input
-                                type='text'
-                                placeholder='Enter User Last Name'
-                                name='lastName'
-                                value={lastName}
-                                className={`form-control ${errors.lastName ? 'is-invalid': ''}`}
-                                onChange={(e) => setLastName(e.target.value)}>
-                            </input>
-                            { errors.lastName && <div className='invalid-feedback'>{errors.lastName}</div> }
+                            { errors.name && <div className='invalid-feedback'>{errors.name}</div> }
                         </div>
                         <div className='form-group mb-2'>
                             <label className='form-label'>Email:</label>
@@ -146,4 +124,4 @@ const ThemesComponent = () => {
   )
 }
 
-export default ThemesComponent
+export default AddMentored;

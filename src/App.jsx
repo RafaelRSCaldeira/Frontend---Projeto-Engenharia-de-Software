@@ -1,27 +1,39 @@
 import './App.css'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import FooterComponent from './components/general/FooterComponent'
-import NavbarComponent from './components/general/NavbarComponent'
-import HomeComponent from './components/general/HomeComponent'
-import UsersComponent from './components/users/UsersComponent'
-import ThemesComponent from './components/themes/ThemesComponent'
-import MentoringsComponent from './components/mentorings/MentoringsComponent'
-import AboutUsComponent from './components/general/AboutUsComponent'
+import Footer from './components/general/Footer'
+import Navbar from './components/general/Navbar'
+import Home from './components/general/Home'
+import Users from './components/users/Users'
+import Themes from './components/themes/Themes'
+import Mentoring from './components/mentorings/Mentorings'
+import AboutUs from './components/general/AboutUs'
+import ListManagers from './components/users/ListManagers'
+import AddManager from './components/users/AddManager'
+import ListMentors from './components/users/ListMentors'
+import AddMentor from './components/users/AddMentor'
+import ListMentoreds from './components/users/ListMentoreds'
+import AddMentored from './components/users/AddMentored'
 
 function App() {
 
   return (
     <>
     <BrowserRouter>
-      {window.location.pathname !== "/" && <NavbarComponent/>}
+      <Navbar/>
       <Routes>
-        <Route path='/' element={<HomeComponent/>}></Route>
-        <Route path='/users' element={<UsersComponent/>}></Route>
-        <Route path='/themes' element={<ThemesComponent/>}></Route>
-        <Route path='/mentorings' element={<MentoringsComponent/>}></Route>
-        <Route path='/about_us' element={<AboutUsComponent/>}></Route>
+        <Route path='/' element={<Home/>}></Route>
+        <Route path='/users' element={<Users/>}></Route>
+        <Route path='/themes' element={<Themes/>}></Route>
+        <Route path='/mentorings' element={<Mentoring/>}></Route>
+        <Route path='/about_us' element={<AboutUs/>}></Route>
+        <Route path='/users/manager' element={<ListManagers/>}></Route>
+        <Route path='/users/manager/add-user' element={<AddManager/>}></Route>
+        <Route path='/users/mentor' element={<ListMentors/>}></Route>
+        <Route path='/users/mentor/add-user' element={<AddMentor/>}></Route>
+        <Route path='/users/mentored' element={<ListMentoreds/>}></Route>
+        <Route path='/users/mentored/add-user' element={<AddMentored/>}></Route>
       </Routes>
-      <FooterComponent/>
+      <Footer/>
     </BrowserRouter>
     </>
   )

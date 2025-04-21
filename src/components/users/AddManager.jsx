@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { createUser, updateUser, getUser } from '../../services/UserService';
 import { useNavigate, useParams } from 'react-router-dom'
+import { createManager, updateManager } from '../../services/users/ManagerService';
 
-const AboutUsComponent = () => {
+const AddManager = () => {
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const {id} = useParams();
 
     const navigator = useNavigate();
 
     const [errors, setErrors] = useState({
-        firstName:'',
-        lastName:'',
+        name:'',
         email:''
     });
 
     useEffect(() => {
         if(id) {
-            getUser(id).then((response) => {
-                setFirstName(response.data.firstName);
-                setLastName(response.data.lastName);
+            getManager(id).then((response) => {
+                setName(response.data.name);
                 setEmail(response.data.email);
             }).catch(error => {
                 console.log(error);
@@ -34,18 +32,18 @@ const AboutUsComponent = () => {
         e.preventDefault();
 
         if(validateForm()) {
-            const user = {firstName, lastName, email};
-            console.log(user);
+            const manager = {name, email, password};
+            console.log(manager);
 
             if(id) {
-                updateUser(id, user).then((response) => {
+                updateManager(id, manager).then((response) => {
                     console.log(response.data);
-                    navigator('/users')
+                    navigator('/users/manager')
                 }).catch(error => console.log(error));
             } else {
-                createUser(user).then((response) => {
+                createManager(manager).then((response) => {
                     console.log(response.data);
-                    navigator('/users')
+                    navigator('/users/manager')
                 }).catch(error => console.log(error));
             }
 
@@ -58,17 +56,10 @@ const AboutUsComponent = () => {
 
         const errorsCopy = {... errors};
 
-        if(firstName.trim()) {
-            errorsCopy.firstName = '';
+        if(name.trim()) {
+            errorsCopy.name = '';
         } else {
-            errorsCopy.firstName = 'First name is required';
-            valid = false;
-        }
-
-        if(lastName.trim()) {
-            errorsCopy.lastName = '';
-        } else {
-            errorsCopy.lastName = 'Last name is required';
+            errorsCopy.name = 'Name is required';
             valid = false;
         }
 
@@ -76,6 +67,13 @@ const AboutUsComponent = () => {
             errorsCopy.email = '';
         } else {
             errorsCopy.email = 'Email is required';
+            valid = false;
+        }
+
+        if(password.trim()) {
+            errorsCopy.email = '';
+        } else {
+            errorsCopy.email = 'Password is required';
             valid = false;
         }
 
@@ -102,28 +100,16 @@ const AboutUsComponent = () => {
                 <div className='card-body'>
                     <form>
                         <div className='form-group mb-2'>
-                            <label className='form-label'>First Name:</label>
+                            <label className='form-label'>Name:</label>
                             <input
                                 type='text'
-                                placeholder='Enter User First Name'
-                                name='firstName'
-                                value={firstName}
-                                className={`form-control ${errors.firstName ? 'is-invalid': ''}`}
-                                onChange={(e) => setFirstName(e.target.value)}>
+                                placeholder='Enter User Name'
+                                name='name'
+                                value={name}
+                                className={`form-control ${errors.name ? 'is-invalid': ''}`}
+                                onChange={(e) => setName(e.target.value)}>
                             </input>
-                            { errors.firstName && <div className='invalid-feedback'>{errors.firstName}</div> }
-                        </div>
-                        <div className='form-group mb-2'>
-                            <label className='form-label'>Last Name:</label>
-                            <input
-                                type='text'
-                                placeholder='Enter User Last Name'
-                                name='lastName'
-                                value={lastName}
-                                className={`form-control ${errors.lastName ? 'is-invalid': ''}`}
-                                onChange={(e) => setLastName(e.target.value)}>
-                            </input>
-                            { errors.lastName && <div className='invalid-feedback'>{errors.lastName}</div> }
+                            { errors.name && <div className='invalid-feedback'>{errors.name}</div> }
                         </div>
                         <div className='form-group mb-2'>
                             <label className='form-label'>Email:</label>
@@ -137,6 +123,18 @@ const AboutUsComponent = () => {
                             </input>
                             { errors.email && <div className='invalid-feedback'>{errors.email}</div> }
                         </div>
+                        <div className='form-group mb-2'>
+                            <label className='form-label'>Password:</label>
+                            <input
+                                type='password'
+                                placeholder='Enter User Password'
+                                name='password'
+                                value={password}
+                                className={`form-control ${errors.password ? 'is-invalid': ''}`}
+                                onChange={(e) => setPassword(e.target.value)}>
+                            </input>
+                            { errors.password && <div className='invalid-feedback'>{errors.password}</div> }
+                        </div>
                         <button className='btn btn-success mt-2' onClick={saveOrUpdateUser}>Submit</button>
                     </form>
                 </div>
@@ -146,4 +144,4 @@ const AboutUsComponent = () => {
   )
 }
 
-export default AboutUsComponent
+export default AddManager;
